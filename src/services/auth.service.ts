@@ -16,21 +16,22 @@ class AuthService {
      * @param password 
      * @returns token
      */
-    public async signIn(username: string, password: string): Promise<{ token: string; refresh_token: string; user: { _id: ObjectId, username: string } }> {
-        const user_db: UserInterface = await userModel.findOne({ username })
+    public async signIn(email: string, password: string): Promise<{ token: string; refresh_token: string; user: { _id: ObjectId, username: string } }> {
+        const user_db: UserInterface = await userModel.findOne({ email })
         if (!user_db) {
             throw new Error(this._errors.password);
         }
         const user: UserInterface = {
             _id: user_db._id,
             username: user_db.username,
+            email: user_db.email,
             password: user_db.password,
             salt: user_db.salt
         };
         const salted_password = this.sha512(password, user.salt);
         if (salted_password.hash_password === user.password) {
             const token = this.generateToken(user);
-            logger.info('New session:', username, token);
+            logger.info('New session:', email, token);
             return {
                 token: token,
                 refresh_token: this.generateToken(user, true),
@@ -71,14 +72,19 @@ class AuthService {
      * signUp
      * @returns token
      */
-    public async signUp(username: string, password: string): Promise<{ token: string; refresh_token: string; user: { _id: ObjectId, username: string } }> {
+    public async signUp(username: string, email: string, password: string): Promise<{ token: string; refresh_token: string; user: { _id: ObjectId, username: string } }> {
         const user_db: UserInterface = await userModel.findOne({ username })
         if (user_db) {
             throw new Error("User already exists");
         }
+        const email_db: UserInterface = await userModel.findOne({ email })
+        if (email_db) {
+            throw new Error("Email already exists");
+        }
         const salted_password = this.sha512(password);
         const user: UserInterface = {
             username: username,
+            email: email,
             password: salted_password.hash_password,
             salt: salted_password.salt
         };

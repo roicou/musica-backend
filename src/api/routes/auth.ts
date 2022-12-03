@@ -12,14 +12,14 @@ export default (app: Router): void => {
     route.post('/signin',
         celebrate({
             body: Joi.object({
-                username: Joi.string().required(),
+                email: Joi.string().required(),
                 password: Joi.string().required(),
             }),
         }),
         async (req: Request, res: Response, next: NextFunction) => {
             try {
-                const { username, password } = req.body;
-                const user_token: { token: string; user: { _id: ObjectId; username: string; } } = await authService.signIn(username, password);
+                const { email, password } = req.body;
+                const user_token: { token: string; user: { _id: ObjectId; username: string; } } = await authService.signIn(email, password);
                 if (user_token) {
                     return apiService.success(req, res, user_token)
                 }
@@ -33,12 +33,13 @@ export default (app: Router): void => {
         celebrate({
             body: Joi.object({
                 username: Joi.string().required(),
+                email: Joi.string().email().required(),
                 password: Joi.string().required(),
             }),
         }), async (req: Request, res: Response, next: NextFunction) => {
             try {
-                const { username, password } = req.body;
-                const user_token: { token: string; user: { _id: ObjectId; username: string; } } = await authService.signUp(username, password);
+                const { username, email, password } = req.body;
+                const user_token: { token: string; user: { _id: ObjectId; username: string; } } = await authService.signUp(username, email, password);
                 if (user_token) {
                     return apiService.success(req, res, user_token);
                 }

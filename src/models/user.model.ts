@@ -1,9 +1,14 @@
 import UserInterface from '@/interfaces/user.interface';
 import { Schema, model } from 'mongoose';
-
+import { ObjectId } from 'mongodb';
 
 const UserModel = new Schema<UserInterface>({
     username: {
+        type: String,
+        required: true,
+    },
+
+    email: {
         type: String,
         required: true,
     },
@@ -16,7 +21,22 @@ const UserModel = new Schema<UserInterface>({
     salt: {
         type: String,
         required: true
-    }
+    },
+
+    likes_artists: {
+        type: [ObjectId],
+        ref: 'Artist'
+    },
+
+    // likes_albums: {
+    //     type: [ObjectId],
+    //     ref: 'Album'
+    // },
+
+    // likes_tracks: {
+    //     type: [ObjectId],
+    //     ref: 'Track'
+    // }
     
 }, {
     timestamps: true,
