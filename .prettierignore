@@ -1,0 +1,19 @@
+dist/*
+node_modules/*
+thunder-tests/*
+.env
+.env*
+package-lock.json
+
+# File types
+*.md
+*.json
+*.html
+*.sh
+*.yml
+*.yaml
+
+# Logs
+logs
+*.log
+

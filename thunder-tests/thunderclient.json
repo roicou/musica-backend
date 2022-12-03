@@ -1,0 +1,47 @@
+[
+  {
+    "_id": "b428af1a-a1e5-4e2e-b86f-0c4f0026c239",
+    "colId": "2f8e9389-284e-432d-a839-772514611949",
+    "containerId": "",
+    "name": "create_user",
+    "url": "http://localhost:3000/api/auth/signup",
+    "method": "POST",
+    "sortNum": 10000,
+    "created": "2022-07-19T06:55:36.676Z",
+    "modified": "2022-07-19T07:01:28.585Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"username\": \"test_user\",\n    \"password\": \"test_password\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "8385af3d-da05-466c-bf6c-fd5c92843f02",
+    "colId": "2f8e9389-284e-432d-a839-772514611949",
+    "containerId": "",
+    "name": "singin",
+    "url": "http://localhost:3000/api/auth/signin",
+    "method": "POST",
+    "sortNum": 20000,
+    "created": "2022-07-19T06:56:49.666Z",
+    "modified": "2022-07-19T07:02:39.388Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n    \"username\": \"test_user\",\n    \"password\": \"test_password\"\n}",
+      "form": []
+    },
+    "tests": [
+      {
+        "type": "set-env-var",
+        "custom": "json.token",
+        "action": "setto",
+        "value": "{{token,local}}"
+      }
+    ]
+  }
+]
